@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<p>Hello, You are on the {{message}} page</p>
+
+{% if number > 10 %}
+    <p>Number is greater than 10</p>
+
+{% elif number == 10%}
+<p>Number is exactly 10</p>
+
+{% else %}
+<p>Number is less than 10</p>
+{% endif %}
+
+<h1>Projects</h1>
+
+<table>
+  <tr>
+    <th>Project</th>
+    <th>Positive Votes</th>
+    <th>Votes</th>
+    <th></th>
+    <th></th>
+  </tr>
+  {% for project in projects %}
+  <tr>
+    <td>{{project.title}}</td>
+    <td>{{project.vote_ratio}}%</td>
+    <td>{{project.vote_total}}</td>
+    <td>{{project.created}}</td>
+    <td><a href="{% url 'update-project' project.id  %}">Edit</td>
+    <td><a href="{% url 'delete-project' project.id %}">Delete</td>
+      <td><a href="{% url 'project' project.id  %}">View</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock content %}
+
