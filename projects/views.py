@@ -21,7 +21,7 @@ def CreateProject(request):
     profile = request.user.profile
     form = ProjectForm()
     
-    if request.method=='POST':
+    if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             project = form.save(commit=False)
