@@ -99,6 +99,7 @@ def editAccount(request):
             
     context = {'form': form}
     return render(request, 'users/profile_form.html', context)
+<<<<<<< HEAD
 
 @login_required(login_url="login")
 def CreateSkill(request):
@@ -143,3 +144,5 @@ def DeleteSkill(request, pk):
         return redirect('account')
     context = {'object':Skill}
     return render(request, 'delete_template.html', context) 
+=======
+>>>>>>> 13ae994c8d9a164725d5e552115e16c605495c05
