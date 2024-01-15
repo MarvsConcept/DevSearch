@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Project
 from .forms import ProjectForm
+from django.contrib import messages
 
 # Create your views here.
 def projects(request):
@@ -27,6 +28,7 @@ def CreateProject(request):
             project = form.save(commit=False)
             project.owner = profile
             project.save()
+            messages.success(request, "Project Created Successfully")
             return redirect('projects')
     
     context= {'form': form}
@@ -41,7 +43,8 @@ def UpdateProject(request, pk):
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
             form.save()
-            return redirect('projects')
+            messages.success(request, "Project Updated Successfully")
+            return redirect('account')
     
     context= {'form': form}
     return render(request, 'projects/project_form.html', context)
@@ -51,6 +54,7 @@ def DeleteProject(request, pk):
     project = Project.objects.get(id=pk)
     if request.method == 'POST':
         project.delete()
-        return redirect('projects')
+        messages.success(request, "Project deleted Successfully")
+        return redirect('account')
     context = {'object':project}
-    return render(request, 'projects/delete_template.html', context)
+    return render(request, 'delete_template.html', context)

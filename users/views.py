@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Profile
-from .forms import CustomUserCreationForm, ProfileForm
+from .forms import CustomUserCreationForm, ProfileForm, SkillForm
 # Create your views here.
 
 
@@ -94,8 +94,52 @@ def editAccount(request):
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            
+        
             return redirect('account')
             
     context = {'form': form}
     return render(request, 'users/profile_form.html', context)
+
+@login_required(login_url="login")
+def CreateSkill(request):
+    profile = request.user.profile
+    form = SkillForm()
+    
+    if request.method == 'POST':
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            skill = form.save(commit=False)
+            skill.owner = profile
+            skill.save()
+            messages.success(request, "Skill Added Successfully")
+            return redirect('account')
+    
+    context= {'form': form}
+    return render(request, 'users/skill_form.html', context)
+
+@login_required(login_url="login")
+def UpdateSkill(request, pk):
+    profile = request.user.profile
+    Skill = profile.skill_set.get(id=pk)
+    form = SkillForm(instance=Skill)
+    
+    if request.method=='POST':
+        form = SkillForm(request.POST, instance=Skill)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Skill Updated Successfully")
+            return redirect('account')
+    
+    context= {'form': form}
+    return render(request, 'users/skill_form.html', context)
+
+@login_required(login_url="login")
+def DeleteSkill(request, pk):
+    profile = request.user.profile
+    Skill = profile.skill_set.get(id=pk)
+    if request.method == 'POST':
+        Skill.delete()
+        messages.success(request, "Skill Removed Successfully")
+        return redirect('account')
+    context = {'object':Skill}
+    return render(request, 'delete_template.html', context) 
