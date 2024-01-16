@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse 
 from django.contrib.auth.decorators import login_required
-from .models import Project
+from django.db.models import Q 
+from .models import Project, Tag
 from .forms import ProjectForm
 from django.contrib import messages
+from.utils import searchProjects
 
 # Create your views here.
 def projects(request):
-    projects = Project.objects.all()
-    context = {'projects':projects}
+    projects, search_query = searchProjects(request)
+    context = {'projects':projects, 'search_query':search_query}
     return render(request, 'projects/projects.html', context)
 
 def project(request, pk):
@@ -17,7 +19,7 @@ def project(request, pk):
         'project': projectObj,
         })
 
-@login_required(login_url="login")
+@login_required(login_url="lo gin")
 def CreateProject(request):
     profile = request.user.profile
     form = ProjectForm()
