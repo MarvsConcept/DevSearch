@@ -61,6 +61,14 @@
     </div>
   </section>
 
+  <div class="paginatio">
+    <ul class="container">
+      {% for page in paginator.page_range %}
+        <li><a href="?page={{page}}">{{page}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+
 </main>
 
 {% endblock content %}
