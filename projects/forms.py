@@ -25,7 +25,7 @@ class ProjectForm(ModelForm):
         # self.fields['description'].widget.attrs.update(
         #     {'class': 'input'})
         
-class ReviewForm(ModelForm):
+class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['value', 'body']
