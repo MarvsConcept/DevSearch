@@ -36,7 +36,7 @@ def project(request, pk):
     return render(request, 'projects/single_projects.html', {
         'project': projectObj, 'form':form})
 
-@login_required(login_url="lo gin")
+@login_required(login_url="login")
 def CreateProject(request):
     profile = request.user.profile
     form = ProjectForm()

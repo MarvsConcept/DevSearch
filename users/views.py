@@ -150,3 +150,9 @@ def DeleteSkill(request, pk):
         return redirect('account')
     context = {'object':Skill}
     return render(request, 'delete_template.html', context)
+
+@login_required(login_url="login")
+def inbox(request):
+    context = {}
+    return render(request, 'users/inbox.html', context)
+    

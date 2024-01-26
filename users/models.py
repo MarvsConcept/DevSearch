@@ -53,6 +53,6 @@ class Message(models.Model):
         return self.subject
     
     class Meta:
-        ordering = ['is_read']
+        ordering = ['is_read', '-created']
     
     
